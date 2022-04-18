@@ -1,22 +1,20 @@
+import Button from "./Button"
+import { useGame } from "../context/GameContextProvider"
+const Guess = ({}) => {
+  const { randomCity, randomCity2, makeGuess } = useGame()
+  const population1 = randomCity.fields.population
+  const population2 = randomCity2.fields.population
 
-const Guess = ({ makeGuess, city1, city2 }) => {
-  const population1 = city1.fields.population
-  const population2 = city2.fields.population
-  const handleGuess = (guess) => {
-    makeGuess(guess)
-  }
   return (
-    <div className='flex flex-col space-y-3 px-12 py-12 text-xl'>
-      <button
-        className='bg-emerald-400 py-4'
-        onClick={() => handleGuess(population1 <= population2)}>
-        Guess more
-      </button>
-      <button
-        className='bg-rose-400 py-4 '
-        onClick={() => handleGuess(population1 >= population2)}>
-        Guess lower
-      </button>
+    <div className='flex w-full flex-col space-y-4 text-xl'>
+      <h3 className='text-3xl text-white'>Population</h3>
+      <div className='flex w-full items-center justify-evenly px-12 '>
+        <Button onClick={() => makeGuess(population1 <= population2)}>More &uarr;</Button>
+        <span className='mx-5 font-semibold text-white'>or</span>
+        <Button variant='danger' onClick={() => makeGuess(population1 >= population2)}>
+          Less &darr;
+        </Button>
+      </div>
     </div>
   )
 }
