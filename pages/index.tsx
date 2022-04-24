@@ -2,14 +2,10 @@ import Head from "next/head"
 import { useGame } from "../context/GameContextProvider"
 import City from "../components/City"
 import Timer from "../components/Timer"
-import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { AnimatePresence } from "framer-motion"
 
 export default function Home() {
-  const { score, maxScore, randomCity, randomCity2 } = useGame()
-  const [animate, setAnimate] = useState(true)
-
-  useEffect(() => {}, [randomCity, animate])
+  const { score, maxScore, randomCity, randomCity2 }: any = useGame()
 
   return (
     <div className='h-screen bg-gray-800'>

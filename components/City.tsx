@@ -1,9 +1,17 @@
 import Guess from "./Guess"
 import { motion } from "framer-motion"
 
-const baseUrl = "https://countryflagsapi.com/png/"
-const City = ({ cityName, countryCode, population, showPopulation = true }) => {
-  const imageUrl = baseUrl + countryCode.toLowerCase()
+interface City {
+  cityName: string
+  countryCode: string
+  population: number
+  showPopulation?: boolean
+}
+
+ const baseUrl: string = "https://countryflagsapi.com/png/"
+
+const City = ({ cityName, countryCode, population, showPopulation = true }: City) => {
+  const imageUrl: string = baseUrl + countryCode.toLowerCase()
 
   return (
     <motion.div

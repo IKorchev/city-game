@@ -1,14 +1,16 @@
 import { useEffect } from "react"
 import { useGame } from "../context/GameContextProvider"
 import { AnimatePresence, motion } from "framer-motion"
+
+
 const Timer = () => {
-  const { time, setTime, playing, makeGuess } = useGame()
+  const { time, setTime, playing, makeGuess }:any = useGame()
   useEffect(() => {
-    let timer
+    let timer: NodeJS.Timer
     if (playing) {
       timer = setInterval(() => {
         if (time > 0) {
-          setTime((time) => time - 1)
+          setTime((time: number) => time - 1)
         }
         if (time === 1) {
           makeGuess(null)

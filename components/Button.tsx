@@ -1,6 +1,10 @@
 import React from "react"
 
-const Button = ({ variant, ...props }) => {
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  variant?: "success" | "danger"
+}
+
+const Button = ({ variant, ...props }: ButtonProps) => {
   const danger = "bg-rose-400"
   const success = "bg-emerald-400"
 
@@ -8,7 +12,7 @@ const Button = ({ variant, ...props }) => {
     <button
       className={`${
         variant === "danger" ? danger : success
-      } flex flex-grow justify-center rounded-md py-2 px-1 font-semibold`}
+      } flex max-w-[10rem] flex-grow justify-center rounded-md py-2 px-1 font-semibold`}
       {...props}>
       {props.children}
     </button>
