@@ -1,33 +1,46 @@
 import Guess from "./Guess"
 import { motion } from "framer-motion"
 
-interface City {
+interface CityProps {
+  h1Height?: number
   cityName: string
   countryCode: string
   population: number
   showPopulation?: boolean
 }
 
- const baseUrl: string = "https://countryflagsapi.com/png/"
+const baseUrl: string = "https://countryflagsapi.com/png/"
 
-const City = ({ cityName, countryCode, population, showPopulation = true }: City) => {
+const City = ({
+  h1Height,
+  cityName,
+  countryCode,
+  population,
+  showPopulation = true,
+}: CityProps) => {
   const imageUrl: string = baseUrl + countryCode.toLowerCase()
-
+  const isFirstCity = showPopulation
   return (
     <motion.div
-      layout
       variants={{
-        mount: { x: "100%" },
-        rest: { x: 0 },
-        exit: { x: "-100%" },
+        initial: { y: `calc(100% + ${h1Height! * 2}px )`, opacity: isFirstCity ? 1 : 0 },
+        rest: {
+          y: 0,
+          opacity: 1,
+          transition: {
+            type: "tween",
+            duration: 1.2,
+            ease: "easeInOut",
+            delay: isFirstCity ? 0 : 0.2,
+          },
+        },
+        exit: {
+          opacity: 0,
+        },
       }}
-      initial='mount'
+      initial='initial'
       animate='rest'
-      transition={{
-        type: "spring",
-        damping: 20,
-        stiffness: 300,
-      }}
+      exit='exit'
       style={{
         backgroundImage: `
         linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
