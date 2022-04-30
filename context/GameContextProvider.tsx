@@ -23,19 +23,26 @@ const GameContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [randomCity2, setRandomCity2] = useState<City | null>(cities[randomNumber2])
   const { maxScore } = useScore(score)
   const scoreWasUpdated = useUpdateLocalStorage(score)
+  const [shown, setShown] = useState<boolean>(false)
+
+  const handleClose = () => {
+    setScore(0)
+    setShown(false)
+    setRandomCity(cities[generateRandomNumber(0, MAX)])
+    setRandomCity2(cities[generateRandomNumber(0, MAX)])
+    setPlaying(false)
+    setTime(TIME_PER_GUESS)
+  }
+  const handleOpen = () => setShown(true)
 
   function resetGame() {
+    handleOpen()
     if (scoreWasUpdated) {
       refAnimationInstance.current({
         spread: 150,
         particleCount: Math.floor(500 * 0.5),
       })
     }
-    setPlaying(false)
-    setScore(0)
-    setTime(TIME_PER_GUESS)
-    setRandomCity(cities[generateRandomNumber(0, MAX)])
-    setRandomCity2(cities[generateRandomNumber(0, MAX)])
   }
 
   function handleCorrectGuess() {
@@ -60,6 +67,9 @@ const GameContextProvider = ({ children }: { children: React.ReactNode }) => {
     randomCity2,
     makeGuess,
     setTime,
+    handleClose,
+    shown,
+    scoreWasUpdated,
   }
 
   return (

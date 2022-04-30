@@ -2,7 +2,6 @@ import Guess from "./Guess"
 import { motion } from "framer-motion"
 
 interface CityProps {
-  h1Height?: number
   cityName: string
   countryCode: string
   population: number
@@ -11,19 +10,13 @@ interface CityProps {
 
 const baseUrl: string = "https://countryflagsapi.com/png/"
 
-const City = ({
-  h1Height,
-  cityName,
-  countryCode,
-  population,
-  showPopulation = true,
-}: CityProps) => {
-  const imageUrl: string = baseUrl + countryCode.toLowerCase()
+const City = ({ cityName, countryCode, population, showPopulation = true }: CityProps) => {
+  const imageUrl = baseUrl + countryCode.toLowerCase()
   const isFirstCity = showPopulation
   return (
     <motion.div
       variants={{
-        initial: { y: `calc(100% + ${h1Height! * 2}px )`, opacity: isFirstCity ? 1 : 0 },
+        initial: { y: `calc(100% + 6rem)`, opacity: isFirstCity ? 1 : 0 },
         rest: {
           y: 0,
           opacity: 1,
@@ -50,7 +43,7 @@ const City = ({
         backgroundSize: "contain",
         backgroundPosition: "center",
       }}
-      className='flex h-[20rem] w-full flex-col items-center justify-center space-y-2    px-5 text-center '>
+      className='flex h-[20rem] w-full flex-col items-center justify-center space-y-2 rounded-2xl px-5  text-center shadow-xl '>
       <h1 className='text-4xl font-semibold text-white'>
         {cityName}, {countryCode}
       </h1>
