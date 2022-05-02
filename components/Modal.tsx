@@ -1,8 +1,9 @@
-import React from "react"
 import { motion, AnimatePresence } from "framer-motion"
+
 type Props = {
   shown: boolean
   children: React.ReactNode
+  handleClose: () => void
 }
 
 const Title = ({ children }: { children: React.ReactChild }) => {
@@ -22,10 +23,10 @@ const Modal = ({ shown, children }: Props) => {
           initial={{ opacity: 0 }}
           className='fixed inset-0 z-30 flex items-center justify-center bg-black/40'>
           <motion.div
-            className='relative z-40 w-96 rounded-xl bg-gray-900 p-5  text-gray-100 '
-            exit={{ y: 50 }}
-            animate={{ y: 0 }}
-            initial={{ y: 50 }}
+            className='relative z-40 flex w-96 flex-col justify-evenly rounded-xl bg-gray-900 p-5 text-gray-100  lg:min-h-[24rem] lg:w-[30rem] '
+            exit={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.2 }}>
             {children}
           </motion.div>

@@ -1,3 +1,4 @@
+
 export const generateRandomNumber = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min) + min)
 
@@ -10,5 +11,3 @@ export const canvasStyles: any = {
   top: 0,
   left: 0,
 }
-
-

@@ -6,8 +6,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
 
 export default function Home() {
-  const { score, maxScore, randomCity, randomCity2 }: any = useGame()
-
+  const { score, maxScore, randomCity, randomCity2 } = useGame()
 
   return (
     <div className='h-screen overflow-y-scroll bg-gray-800'>
@@ -31,13 +30,15 @@ export default function Home() {
           <span>Max Streak: {maxScore}</span>
         </div>
       </header>
-      <motion.main className='mx-auto flex max-w-2xl flex-col space-y-5 overflow-hidden py-5  text-5xl '>
-        <City
-          key={randomCity.fields.country_code}
-          cityName={randomCity.fields.name}
-          countryCode={randomCity.fields.country_code}
-          population={randomCity.fields.population}
-        />
+      <motion.main className='mx-auto flex max-w-2xl flex-col items-center space-y-5 overflow-hidden py-5  text-5xl '>
+        {randomCity && (
+          <City
+            key={randomCity.fields.country_code}
+            cityName={randomCity.fields.name}
+            countryCode={randomCity.fields.country_code}
+            population={randomCity.fields.population}
+          />
+        )}
         <h2 className='sr-only'>Versus</h2>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -53,13 +54,15 @@ export default function Home() {
           />
         </svg>
         <AnimatePresence>
-          <City
-            key={randomCity2.fields.country_code}
-            cityName={randomCity2.fields.name}
-            countryCode={randomCity2.fields.country_code}
-            population={randomCity2.fields.population}
-            showPopulation={false}
-          />
+          {randomCity2 && (
+            <City
+              key={randomCity2.fields.country_code}
+              cityName={randomCity2.fields.name}
+              countryCode={randomCity2.fields.country_code}
+              population={randomCity2.fields.population}
+              showPopulation={false}
+            />
+          )}
         </AnimatePresence>
       </motion.main>
     </div>

@@ -8,7 +8,6 @@ const useUpdateLocalStorage = (score: number) => {
     const localStorageScore = _localStorageScore ? parseInt(_localStorageScore) : 0
     if (score > localStorageScore) {
       window.localStorage.setItem("MAX_SCORE", score.toString())
-      //show confetti animation
       setWasScoreUpdated(true)
     }
   }, [score])

@@ -22,7 +22,7 @@ const City = ({ cityName, countryCode, population, showPopulation = true }: City
           opacity: 1,
           transition: {
             type: "tween",
-            duration: 1.2,
+            duration: 0.5,
             ease: "easeInOut",
             delay: isFirstCity ? 0 : 0.2,
           },
@@ -43,7 +43,7 @@ const City = ({ cityName, countryCode, population, showPopulation = true }: City
         backgroundSize: "contain",
         backgroundPosition: "center",
       }}
-      className='flex h-[20rem] w-full flex-col items-center justify-center space-y-2 rounded-2xl px-5  text-center shadow-xl '>
+      className='flex min-h-[15rem] min-w-[30rem] flex-col items-center justify-center space-y-2 rounded-2xl px-5 text-center shadow-xl  lg:h-[20rem] lg:w-[40rem] '>
       <h1 className='text-4xl font-semibold text-white'>
         {cityName}, {countryCode}
       </h1>

@@ -1,13 +1,13 @@
 import cities from "../cities.json"
-import React, { useState, useContext, createContext, useCallback, useRef } from "react"
-import { GameContextState } from "./GameContext.types"
+import React, { useState, useContext, createContext, useRef } from "react"
 import { generateRandomNumber, canvasStyles } from "../utils/index"
-import { City } from "../components/City.types"
+import City from "../components/City.types"
 import ReactCanvasConfetti from "react-canvas-confetti"
 import useScore from "../hooks/use-score"
 import useUpdateLocalStorage from "../hooks/use-update-ls"
+import { GameContextType } from "./GameContext"
 
-const Context = createContext({} as GameContextState)
+const Context = createContext({} as GameContextType)
 
 const TIME_PER_GUESS: number = 15
 const MAX = cities.length
@@ -58,7 +58,7 @@ const GameContextProvider = ({ children }: { children: React.ReactNode }) => {
     handleCorrectGuess()
   }
 
-  const value: GameContextState = {
+  const value = {
     time,
     score,
     playing,
@@ -83,5 +83,5 @@ const GameContextProvider = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export const useGame = (): GameContextState => useContext(Context)
+export const useGame = () => useContext(Context)
 export default GameContextProvider

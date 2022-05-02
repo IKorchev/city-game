@@ -16,9 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "POST") {
+
     const body: Body = JSON.parse(req.body)
     const file = fs.readFileSync("./pages/api/leaderboard.json", "utf8")
     const data = JSON.parse(file)
+    
     data.push(body)
     fs.writeFileSync("./pages/api/leaderboard.json", JSON.stringify(data))
     res.json(data)
