@@ -1,28 +1,29 @@
-// eslint-disable-next-line @next/next/no-server-import-in-page
 import type { NextApiRequest, NextApiResponse } from "next"
-import fs from "fs"
-
-type Body = {
+import { supabase } from "../../utils/supabaseClient"
+interface IData {
+  id: number
+  created_at: Date
+  name: string
+  score: number
+}
+interface IBody {
   name: string
   score: number
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    const file = fs.readFileSync("./pages/api/leaderboard.json", "utf8")
-    const data = JSON.parse(file)
-    const sortedData = data.sort((a: any, b: any) => (a.score > b.score ? -1 : 1))
-    res.json(sortedData)
+    const { data, error }: { data: IData[] | null; error: any } = await supabase
+      .from("leaderboard")
+      .select("*")
+
+    res.status(error ? 500 : 200).json(data ?? error)
   }
-
   if (req.method === "POST") {
+    const body: IBody = JSON.parse(req.body)
 
-    const body: Body = JSON.parse(req.body)
-    const file = fs.readFileSync("./pages/api/leaderboard.json", "utf8")
-    const data = JSON.parse(file)
-    
-    data.push(body)
-    fs.writeFileSync("./pages/api/leaderboard.json", JSON.stringify(data))
-    res.json(data)
+    const { data, error } = await supabase.from("leaderboard").insert([body])
+
+    res.status(error ? 500 : 200).json(data ?? error)
   }
 }
