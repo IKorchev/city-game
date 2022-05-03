@@ -1,4 +1,4 @@
-export default interface ICity {
+export interface ICity {
   fields: {
     population: number
     name: string

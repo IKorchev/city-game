@@ -1,14 +1,16 @@
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import GameContextProvider from "../context/GameContextProvider"
-import ModalContext from "../context/ModalContext"
+import Layout from "../components/Layout"
+import CustomModal from "../components/CustomModal"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GameContextProvider>
-      <ModalContext>
+      <CustomModal />
+      <Layout>
         <Component {...pageProps} />
-      </ModalContext>
+      </Layout>
     </GameContextProvider>
   )
 }

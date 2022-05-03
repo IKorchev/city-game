@@ -1,7 +1,7 @@
 import Guess from "./Guess"
 import { motion } from "framer-motion"
 
-interface CityProps {
+type CityProps = {
   cityName: string
   countryCode: string
   population: number
@@ -16,7 +16,10 @@ const City = ({ cityName, countryCode, population, showPopulation = true }: City
   return (
     <motion.div
       variants={{
-        initial: { y: `calc(100% + 6rem)`, opacity: isFirstCity ? 1 : 0 },
+        initial: {
+          y: isFirstCity ? `calc(100% + 6rem)` : "20%",
+          opacity: isFirstCity ? 1 : 0,
+        },
         rest: {
           y: 0,
           opacity: 1,

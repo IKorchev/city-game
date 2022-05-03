@@ -1,26 +1,23 @@
 import cities from "../cities.json"
 import React, { useState, useContext, createContext, useRef } from "react"
 import { generateRandomNumber, canvasStyles } from "../utils/index"
-import City from "../components/City.types"
 import ReactCanvasConfetti from "react-canvas-confetti"
 import useScore from "../hooks/use-score"
 import useUpdateLocalStorage from "../hooks/use-update-ls"
-import { GameContextType } from "./GameContext"
+import { GameContext, ICity } from "../types"
 
-const Context = createContext({} as GameContextType)
+const Context = createContext({} as GameContext)
 
 const TIME_PER_GUESS: number = 15
 const MAX = cities.length
 
 const GameContextProvider = ({ children }: { children: React.ReactNode }) => {
   const refAnimationInstance = useRef<any>(null)
-  const randomNumber = generateRandomNumber(0, MAX)
-  const randomNumber2 = generateRandomNumber(0, MAX)
   const [score, setScore] = useState<number>(0)
   const [time, setTime] = useState<number>(TIME_PER_GUESS)
   const [playing, setPlaying] = useState<boolean>(false)
-  const [randomCity, setRandomCity] = useState<City | null>(cities[randomNumber])
-  const [randomCity2, setRandomCity2] = useState<City | null>(cities[randomNumber2])
+  const [randomCity, setRandomCity] = useState<ICity | null>(cities[generateRandomNumber(0, MAX)])
+  const [randomCity2, setRandomCity2] = useState<ICity | null>(cities[generateRandomNumber(0, MAX)])
   const { maxScore } = useScore(score)
   const scoreWasUpdated = useUpdateLocalStorage(score)
   const [shown, setShown] = useState<boolean>(false)

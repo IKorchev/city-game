@@ -1,26 +1,48 @@
 import Head from "next/head"
-import Link from "next/link"
-import React, { useEffect, useState } from "react"
-type LeaderboardType = {
-  id: number
-  name: string
-  score: number
-  created_at: Date
+import React, { Suspense, useEffect, useState } from "react"
+import Table from "../components/Table"
+import { Leaderboard } from "../types/Leaderboard"
+
+async function getLeaderboard(): Promise<Leaderboard[]> {
+  const response = await fetch("/api/leaderboard")
+  const data: Leaderboard[] = await response.json()
+  return data
+}
+
+function wrapPromise(promise: Promise<Leaderboard[]>) {
+  let status = "pending"
+  let result: any
+  let suspender = promise.then(
+    (r) => {
+      status = "success"
+      result = r
+    },
+    (e) => {
+      status = "error"
+      result = e
+    }
+  )
+  return {
+    read() {
+      if (status === "pending") {
+        throw suspender
+      } else if (status === "error") {
+        throw result
+      } else if (status === "success") {
+        return result
+      }
+    },
+  }
+}
+
+function fetchLeaderboard() {
+  const promise = getLeaderboard()
+  return wrapPromise(promise)
 }
 
 function Leaderboard() {
-  const [leaderboard, setLeaderboard] = useState<LeaderboardType[] | []>([])
-
-  useEffect(() => {
-    async function getLeaderboard(): Promise<void> {
-      const response = await fetch("/api/leaderboard")
-      const data: LeaderboardType[] = await response.json()
-      console.log(data)
-      setLeaderboard(data)
-    }
-    getLeaderboard()
-  }, [])
-
+  const [leaderboard, setLeaderboard] = useState<Leaderboard[] | []>([])
+  const data = fetchLeaderboard()
   return (
     <>
       <Head>
@@ -30,31 +52,10 @@ function Leaderboard() {
         <meta name='title' content='Leaderboard' />
       </Head>
       <div className='min-h-screen bg-gray-800 px-12 py-4 text-white'>
-        <Link href='/'>Go back</Link>
         <h1 className='py-5 text-center text-4xl'>Leaderboard</h1>
-        <table cellPadding={5} className='mx-auto mt-12 w-full max-w-3xl border-collapse text-left text-lg'>
-          <thead className='bg-gray-900 '>
-            <tr className=''>
-              <th className='border border-gray-600 px-4 py-3'>Place</th>
-              <th className='border border-gray-600 px-4 py-3'>Name</th>
-              <th className='border border-gray-600 px-4 py-3'>Score</th>
-              <th className='border border-gray-600 px-4 py-3'>Created at</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leaderboard.map((leader, i) => {
-              const createdAt = new Date(leader.created_at).toLocaleString()
-              return (
-                <tr className='' key={leader.id}>
-                  <td className='border border-gray-600 px-4 py-3'>{i + 1}</td>
-                  <td className='border border-gray-600 px-4 py-3'>{leader.name}</td>
-                  <td className='border border-gray-600 px-4 py-3'>{leader.score}</td>
-                  <td className='border border-gray-600 px-4 py-3'>{createdAt}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <Suspense fallback='Loading'>
+          <Table leaderboard={data} />
+        </Suspense>
       </div>
     </>
   )

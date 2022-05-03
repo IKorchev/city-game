@@ -1,6 +1,6 @@
-import ICity from "../components/City.types"
+import { ICity } from "./City"
 
-export type GameContextType = {
+export type GameContext = {
   time: number
   score: number
   playing: boolean

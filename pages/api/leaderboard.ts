@@ -16,6 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data, error }: { data: IData[] | null; error: any } = await supabase
       .from("leaderboard")
       .select("*")
+      .order("score", { ascending: false })
 
     res.status(error ? 500 : 200).json(data ?? error)
   }
